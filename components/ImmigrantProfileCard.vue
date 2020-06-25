@@ -68,16 +68,14 @@ export default {
     VueperSlide
   },
   mounted: function() {
-    console.log("ready")
     window.addEventListener("resize", this.handleResize);
+    this.handleResize()
   },
   beforeDestroy: function() {
-    console.log("destroy")
     window.removeEventListener("resize", this.handleResize);
   },
   methods: {
     handleResize(event) {
-      console.log("called");
       if (window.innerWidth > 960) {
         this.visibleSlidesCount = 3;
         this.slideHeight = "600px";
