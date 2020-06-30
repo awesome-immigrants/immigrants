@@ -98,7 +98,7 @@ export default {
   transform: translateY(-1rem);
 }
 .vueperslide--active:hover {
-  transform: translateY(-1rem);
+  border: 1px solid red;
 }
 
 .title-wrapper {
