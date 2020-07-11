@@ -1,7 +1,7 @@
 {
-  "name": "whoisfromwhere",
+  "name": "awesome-immigrants",
   "version": "1.0.0",
-  "description": "who is Who and from Where",
+  "description": "Curated List of Awesome Immigrants",
   "author": "Rajat Jindal",
   "private": true,
   "scripts": {
