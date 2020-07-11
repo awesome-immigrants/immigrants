@@ -1,9 +1,26 @@
 <template>
   <div class="section">
-    <particles-bg type="lines-particles" :bg="true" /> 
+    <particles-bg type="lines-particles" :bg="true" />
+
     <div class="container">
       <div class="columns is-multiline">
-        <div v-for="(immigrant, index) in allImmigrants" :key="index" class="column is-3">
+        <div class="column is-full">
+          <div class="container">
+              <div class="field is-grouped is-grouped-multiline">
+                <div v-for="tag in allTags" :key="tag.name" class="control">
+                  <div v-on:click="filterTag('CEO')" class="tags has-addons">
+                    <span class="tag is-dark is-capitalized">{{ tag.name }}</span>
+                    <span class="tag is-info">{{ tag.count }}</span>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div
+          v-for="(immigrant, index) in allImmigrants"
+          :key="index"
+          class="column is-3"
+        >
           <div class="card">
             <div class="header">
               <div class="avatar">
@@ -13,12 +30,27 @@
             <div class="card-body">
               <div class="user-meta has-text-centered">
                 <h3 class="username">{{ immigrant.displayName }}</h3>
-                <h5 class="position">{{ immigrant.designation }} - {{ immigrant.company }}</h5>
+                <h5 class="position">
+                  {{ immigrant.designation }} - {{ immigrant.company }}
+                </h5>
               </div>
               <div class="action has-text-centered">
-                <span v-if="immigrant.twitterHandle"><a :href="'https://twitter.com/' + immigrant.twitterHandle"><i class="fab fa-twitter fa-1x our-primary"></i></a></span>
-                <span v-if="immigrant.linkedinHandle"><a :href="'https://linkedin.com/' + immigrant.linkedinHandle"><i class="fab fa-linkedin fa-1x our-primary"></i></a></span>
-                <span v-if="immigrant.githubHandle"><a :href="'https://github.com/' + immigrant.githubHandle"><i class="fab fa-github fa-1x our-primary"></i></a></span>
+                <span v-if="immigrant.twitterHandle"
+                  ><a :href="'https://twitter.com/' + immigrant.twitterHandle"
+                    ><i class="fab fa-twitter fa-1x our-primary"></i></a
+                ></span>
+                <span v-if="immigrant.linkedinHandle"
+                  ><a :href="'https://linkedin.com/' + immigrant.linkedinHandle"
+                    ><i class="fab fa-linkedin fa-1x our-primary"></i></a
+                ></span>
+                <span v-if="immigrant.githubHandle"
+                  ><a :href="'https://github.com/' + immigrant.githubHandle"
+                    ><i class="fab fa-github fa-1x our-primary"></i></a
+                ></span>
+                 <span v-if="immigrant.wikipedia"
+                  ><a :href="immigrant.wikipedia"
+                    ><i class="fab fa-wikipedia-w fa-1x our-primary"></i></a
+                ></span>
               </div>
             </div>
           </div>
@@ -39,7 +71,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ allImmigrants: "immigrants/allImmigrants" })
+    ...mapGetters({ allImmigrants: "immigrants/allImmigrants" }),
+    ...mapGetters({ allTags: "immigrants/allTags" }),
   },
   mounted: function() {
     window.addEventListener("resize", this.handleResize);
@@ -66,7 +99,7 @@ export default {
 
 <style lang="scss" scoped>
 .section {
-    background-color : transparent !important;
+  background-color: transparent !important;
 }
 
 body {
@@ -88,7 +121,7 @@ $muted: #999;
 .our-primary {
   transition-delay: 0.1s;
   color: $primary;
-  margin-left: 5px; 
+  margin-left: 5px;
 }
 
 .our-primary:hover {
