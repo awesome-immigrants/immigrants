@@ -1,60 +1,73 @@
 <template>
   <div class="section">
     <particles-bg type="lines-particles" :bg="true" />
-
     <div class="container">
       <div class="columns is-multiline">
         <div class="column is-full">
           <div class="container">
-              <div class="field is-grouped is-grouped-multiline">
-                <div v-for="tag in allTags" :key="tag.name" class="control">
-                  <div v-on:click="filterTag('CEO')" class="tags has-addons">
-                    <span class="tag is-dark is-capitalized">{{ tag.name }}</span>
-                    <span class="tag is-info">{{ tag.count }}</span>
+            <div class="field is-grouped is-grouped-multiline">
+              <div v-for="tag in allTags" :key="tag.name" class="control">
+                <div
+                  style="cursor: pointer;"
+                  v-on:click="updateTag(tag.name)"
+                  class="tags has-addons"
+                >
+                  <span class="tag is-dark is-capitalized">{{ tag.name }}</span>
+                  <span class="tag is-info">{{ tag.count }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <transition
+          v-for="(immigrant, index) in filteredImmigrants"
+          :key="index"
+          name="fade"
+        >
+            <div class="column is-3">
+              <div class="card">
+                <div class="header">
+                  <div class="avatar">
+                    <img :src="immigrant.profilePicture" alt="" />
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="user-meta has-text-centered">
+                    <h3 class="username">{{ immigrant.displayName }}</h3>
+                    <h5 class="position">
+                      {{ immigrant.designation
+                      }}<span v-if="immigrant.company">
+                        - {{ immigrant.company }}</span
+                      >
+                    </h5>
+                  </div>
+                  <div class="action has-text-centered">
+                    <span v-if="immigrant.twitterHandle"
+                      ><a
+                        :href="'https://twitter.com/' + immigrant.twitterHandle"
+                        ><i class="fab fa-twitter fa-1x our-primary"></i></a
+                    ></span>
+                    <span v-if="immigrant.linkedinHandle"
+                      ><a
+                        :href="
+                          'https://linkedin.com/' + immigrant.linkedinHandle
+                        "
+                        ><i class="fab fa-linkedin fa-1x our-primary"></i></a
+                    ></span>
+                    <span v-if="immigrant.githubHandle"
+                      ><a :href="'https://github.com/' + immigrant.githubHandle"
+                        ><i class="fab fa-github fa-1x our-primary"></i></a
+                    ></span>
+                    <span v-if="immigrant.wikipedia"
+                      ><a :href="immigrant.wikipedia"
+                        ><i class="fab fa-wikipedia-w fa-1x our-primary"></i></a
+                    ></span>
                   </div>
                 </div>
               </div>
-          </div>
-        </div>
-        <div
-          v-for="(immigrant, index) in allImmigrants"
-          :key="index"
-          class="column is-3"
-        >
-          <div class="card">
-            <div class="header">
-              <div class="avatar">
-                <img :src="immigrant.profilePicture" alt="" />
-              </div>
             </div>
-            <div class="card-body">
-              <div class="user-meta has-text-centered">
-                <h3 class="username">{{ immigrant.displayName }}</h3>
-                <h5 class="position">
-                  {{ immigrant.designation }} - {{ immigrant.company }}
-                </h5>
-              </div>
-              <div class="action has-text-centered">
-                <span v-if="immigrant.twitterHandle"
-                  ><a :href="'https://twitter.com/' + immigrant.twitterHandle"
-                    ><i class="fab fa-twitter fa-1x our-primary"></i></a
-                ></span>
-                <span v-if="immigrant.linkedinHandle"
-                  ><a :href="'https://linkedin.com/' + immigrant.linkedinHandle"
-                    ><i class="fab fa-linkedin fa-1x our-primary"></i></a
-                ></span>
-                <span v-if="immigrant.githubHandle"
-                  ><a :href="'https://github.com/' + immigrant.githubHandle"
-                    ><i class="fab fa-github fa-1x our-primary"></i></a
-                ></span>
-                 <span v-if="immigrant.wikipedia"
-                  ><a :href="immigrant.wikipedia"
-                    ><i class="fab fa-wikipedia-w fa-1x our-primary"></i></a
-                ></span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -66,32 +79,32 @@ export default {
   name: "ImmigrantProfileCard",
   data() {
     return {
-      visibleSlidesCount: 3,
-      slideHeight: "600px"
+      currentTag: "all"
     };
   },
   computed: {
     ...mapGetters({ allImmigrants: "immigrants/allImmigrants" }),
     ...mapGetters({ allTags: "immigrants/allTags" }),
-  },
-  mounted: function() {
-    window.addEventListener("resize", this.handleResize);
-    this.handleResize();
-  },
-  beforeDestroy: function() {
-    window.removeEventListener("resize", this.handleResize);
-  },
-  methods: {
-    handleResize(event) {
-      if (window.innerWidth > 960) {
-        this.visibleSlidesCount = 3;
-        this.slideHeight = "600px";
-
-        return;
+    filteredImmigrants: function() {
+      if (
+        !this.currentTag ||
+        this.currentTag == "" ||
+        this.currentTag == "all"
+      ) {
+        return this.allImmigrants;
       }
 
-      this.visibleSlidesCount = 1;
-      this.slideHeight = window.innerHeight;
+      return this.allImmigrants.filter(
+        immigrant =>
+          this.currentTag &&
+          this.currentTag != "" &&
+          this.currentTag.toLowerCase() == immigrant.designation.toLowerCase()
+      );
+    }
+  },
+  methods: {
+    updateTag: function(tag) {
+      this.currentTag = tag;
     }
   }
 };
@@ -200,5 +213,14 @@ $muted: #999;
 
 .card:hover {
   box-shadow: 0 5px 15px $primary;
+}
+
+.fade-enter-active,
+.fade-enter,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

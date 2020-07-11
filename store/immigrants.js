@@ -49,6 +49,67 @@ export const state = () => ({
             "company": "SpaceX; Tesla; SolarCity; The Boring Company; Hyperloop; Starlink;",
             "firstEntry": "Nov 3rd 2020",
             "wikipedia": "https://en.wikipedia.org/wiki/Elon_Musk"
+        },
+        {
+            "id": "alberteinstein",
+            "displayName": "Albert Einstein",
+            "profilePicture": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/440px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
+            "designation": "Scientist",
+            "firstEntry": "Nov 3rd 2020",
+            "wikipedia": "https://en.wikipedia.org/wiki/Albert_Einstein"
+        },
+        {
+            "id": "arnoldschwarzenegger",
+            "displayName": "Arnold Schwarzenegger",
+            "profilePicture": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Arnold_Schwarzenegger_by_Gage_Skidmore_4.jpg/440px-Arnold_Schwarzenegger_by_Gage_Skidmore_4.jpg",
+            "designation": "Actor",
+            "firstEntry": "Nov 3rd 2020",
+            "wikipedia": "https://en.wikipedia.org/wiki/Arnold_Schwarzenegger"
+        },
+        {
+            "id": "stevechen",
+            "displayName": "Steve Chen",
+            "profilePicture": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/YouTube_TaiwanVersionLaunch_SteveChen-2.jpg/440px-YouTube_TaiwanVersionLaunch_SteveChen-2.jpg",
+            "designation": "Founder",
+            "firstEntry": "Nov 3rd 2020",
+            "company": "You Tube",
+            "wikipedia": "https://en.wikipedia.org/wiki/Steve_Chen"
+        },
+        {
+            "id": "jawedkarim",
+            "displayName": "Jawed Karim",
+            "profilePicture": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Jawed_Karim_2008.jpg/440px-Jawed_Karim_2008.jpg",
+            "designation": "Founder",
+            "firstEntry": "Nov 3rd 2020",
+            "company": "You Tube",
+            "wikipedia": "https://en.wikipedia.org/wiki/Jawed_Karim"
+        },
+        {
+            "id": "jankoum",
+            "displayName": "Jan Koum",
+            "profilePicture": "https://upload.wikimedia.org/wikipedia/commons/4/48/Tumblr_inline_n19k9vpY8G1qzzumw_%28cropped%29.jpg",
+            "designation": "Founder",
+            "firstEntry": "Nov 3rd 2020",
+            "company": "Whatsapp",
+            "wikipedia": "https://en.wikipedia.org/wiki/Jan_Koum"
+        },
+        {
+            "id": "lewisstrauss",
+            "displayName": "Lewis Strauss",
+            "profilePicture": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Levi_Strauss_1.jpg/440px-Levi_Strauss_1.jpg",
+            "designation": "Founder",
+            "firstEntry": "Nov 3rd 2020",
+            "company": "Lewis Strauss",
+            "wikipedia": "https://en.wikipedia.org/wiki/Levi_Strauss"
+        },
+        {
+            "id": "sergeybrin",
+            "displayName": "Sergey Brin",
+            "profilePicture": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Sergey_Brin_cropped.jpg/440px-Sergey_Brin_cropped.jpg",
+            "designation": "Founder",
+            "firstEntry": "Nov 3rd 2020",
+            "company": "Google",
+            "wikipedia": "https://en.wikipedia.org/wiki/Sergey_Brin"
         }
     ]
 })
@@ -67,7 +128,11 @@ export const getters = {
         };
         const allTagsMap = state.immigrants.reduce(reducer, new Map())
         
-        var allTags = []
+        var allTags = [{
+            name: "all",
+            count: state.immigrants.length
+        }]
+
         for (let [k, v] of allTagsMap) {
             console.log(k)
             allTags.push({
