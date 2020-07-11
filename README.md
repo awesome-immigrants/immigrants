@@ -1,22 +1,9 @@
-# whoisfromwhere
+# Awesome Immigrants
 
-> who is Who and from Where
+A crowdsourced, curated list of Awesome Immigrants that demonstrate the value they bring with them. 
 
-## Build Setup
+Deployed at: https://awesome-immigrants.rajatjindal.com
 
-```bash
-# install dependencies
-$ yarn install
+Know someone who should be on the list, please open PR. We would love to them here. 
 
-# serve with hot reload at localhost:3000
-$ yarn dev
-
-# build for production and launch server
-$ yarn build
-$ yarn start
-
-# generate static project
-$ yarn generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+They can be anyone you admire, in any field.
