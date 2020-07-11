@@ -1,6 +1,6 @@
 <template>
-  <div class="section">
-      <immigrant-profile-card />
+  <div id="app">
+    <immigrant-profile-card />
   </div>
 </template>
 

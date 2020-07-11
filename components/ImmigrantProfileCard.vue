@@ -1,56 +1,34 @@
 <template>
-  <div class="container">
-    <div class="title-wrapper has-text-centered">
-      <h2 class="subtitle is-2">who is Who and From Where</h2>
-      <div class="divider is-centered"></div>
-    </div>
-
-    <vueper-slides
-      class="no-shadow"
-      :visible-slides="visibleSlidesCount"
-      :slide-ratio="1 / 4"
-      :dragging-distance="70"
-      :gap="2"
-      :fixed-height="slideHeight"
-    >
-      <vueper-slide
-        v-for="(immigrant, index) in allImmigrants"
-        :key="index"
-        :title="index.toString()"
-      >
-        <template v-slot:content>
-          <div class="card is-primary">
-            <div class="card-image">
-              <figure class="image is-1by1">
-                <img
-                  :src="immigrant.profilePicture"
-                  :alt="immigrant.displayName"
-                />
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="media">
-                <div class="media-content">
-                  <p class="title is-4">{{ immigrant.displayName }}</p>
-                  <p class="subtitle is-6">@{{ immigrant.twitterHandle }}</p>
-                </div>
+  <div class="section">
+    <particles-bg type="lines-particles" :bg="true" /> 
+    <div class="container">
+      <div class="columns is-multiline">
+        <div v-for="(immigrant, index) in allImmigrants" :key="index" class="column is-3">
+          <div class="card">
+            <div class="header">
+              <div class="avatar">
+                <img :src="immigrant.profilePicture" alt="" />
               </div>
-
-              <div class="content">
-                <b>{{ immigrant.designation }}</b
-                ><i> at </i><b>{{ immigrant.company }}</b>
+            </div>
+            <div class="card-body">
+              <div class="user-meta has-text-centered">
+                <h3 class="username">{{ immigrant.displayName }}</h3>
+                <h5 class="position">{{ immigrant.designation }} - {{ immigrant.company }}</h5>
+              </div>
+              <div class="action has-text-centered">
+                <span v-if="immigrant.twitterHandle"><a :href="'https://twitter.com/' + immigrant.twitterHandle"><i class="fab fa-twitter fa-1x our-primary"></i></a></span>
+                <span v-if="immigrant.linkedinHandle"><a :href="'https://linkedin.com/' + immigrant.linkedinHandle"><i class="fab fa-linkedin fa-1x our-primary"></i></a></span>
+                <span v-if="immigrant.githubHandle"><a :href="'https://github.com/' + immigrant.githubHandle"><i class="fab fa-github fa-1x our-primary"></i></a></span>
               </div>
             </div>
           </div>
-        </template>
-      </vueper-slide>
-    </vueper-slides>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { VueperSlides, VueperSlide } from "vueperslides";
-import "vueperslides/dist/vueperslides.css";
 
 export default {
   name: "ImmigrantProfileCard",
@@ -63,13 +41,9 @@ export default {
   computed: {
     ...mapGetters({ allImmigrants: "immigrants/allImmigrants" })
   },
-  components: {
-    VueperSlides,
-    VueperSlide
-  },
   mounted: function() {
     window.addEventListener("resize", this.handleResize);
-    this.handleResize()
+    this.handleResize();
   },
   beforeDestroy: function() {
     window.removeEventListener("resize", this.handleResize);
@@ -90,34 +64,108 @@ export default {
 };
 </script>
 
-<style scoped>
-.vueperslide {
-  transition: 0.2s !important;
-}
-.vueperslide:hover {
-  transform: translateY(-1rem);
-}
-.vueperslide--active {
-  border: 1px solid red;
+<style lang="scss" scoped>
+.section {
+    background-color : transparent !important;
 }
 
-.title-wrapper {
-  max-width: 500px;
-  margin: 0 auto;
+body {
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
-.has-text-centered {
-  text-align: center !important;
+.columns {
+  margin-top: 80px;
 }
 
-.divider.is-centered {
-  margin: 0 auto;
+$white: #ffffff;
+$primary: #7f00ff;
+$secondary: #00d1b2;
+$section: #ededed;
+$muted: #999;
+
+.our-primary {
+  transition-delay: 0.1s;
+  color: $primary;
+  margin-left: 5px; 
 }
-.divider {
-  height: 3px;
-  border-radius: 50px;
-  background: #f39200;
-  width: 120px;
-  margin-bottom: 25px !important;
+
+.our-primary:hover {
+  color: rgb(29, 161, 242);
+  transform: scale(1.6);
+  margin-left: 5px;
+}
+
+.card-body {
+  padding: 30px;
+  .user-meta {
+    padding-top: 20px;
+    .username {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .position {
+      font-size: 90%;
+      color: $primary;
+    }
+  }
+}
+.user-bio {
+  padding-top: 8px;
+  font-size: 92%;
+  color: $muted;
+}
+.action {
+  padding-top: 20px;
+  .button {
+    padding: 16px 20px 16px 20px;
+    background: $primary;
+    border-color: $primary;
+    color: $white;
+    border-radius: 100px;
+    transition: opacity 0.3s;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.header {
+  height: 90px;
+  background: $primary;
+  .avatar {
+    width: 80px;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+    img {
+      display: block;
+      border-radius: 50%;
+      position: absolute;
+      bottom: -42px;
+      border: 4px solid $white;
+    }
+  }
+}
+
+.section {
+  background-color: $section;
+  min-height: 100vh;
+  position: relative;
+}
+
+.card {
+  background-color: white;
+  box-shadow: rgba(10, 10, 10, 0.1) 0px 2px 3px,
+    rgba(10, 10, 10, 0.1) 0px 0px 0px 1px;
+  color: rgb(74, 74, 74);
+  max-width: 100%;
+  transition-delay: 0.1s;
+  transition-timing-function: ease-in;
+}
+
+.card:hover {
+  box-shadow: 0 5px 15px $primary;
 }
 </style>
